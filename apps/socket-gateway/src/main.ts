@@ -1,12 +1,12 @@
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
 import { Env } from './config/env-validation.schema';
 import { RedisIoAdapter } from './redis-io-adapter';
-import { TickersModule } from './tickers/tickers.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(TickersModule);
+  const app = await NestFactory.create(AppModule);
   app.enableCors({ origin: '*' });
 
   const logger = new Logger('SocketGatewayBootstrap');
