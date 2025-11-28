@@ -1,0 +1,7 @@
+{
+  "cSpell.words": ["Sourcify", "unwatchers", "Wagmi"],
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "editor.formatOnSave": true
+}

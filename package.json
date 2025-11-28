@@ -1,0 +1,24 @@
+{
+  "name": "livesey",
+  "private": true,
+  "engines": {
+    "node": "^24.11.1",
+    "pnpm": "^10.19.0"
+  },
+  "packageManager": "pnpm@10.19.0",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --concurrency 11 ",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "typecheck": "turbo run typecheck",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo run clean"
+  },
+  "devDependencies": {
+    "prettier": "catalog:",
+    "turbo": "^2.5.8",
+    "typescript": "catalog:",
+    "dotenv-cli": "catalog:"
+  }
+}
