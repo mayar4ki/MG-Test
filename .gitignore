@@ -57,3 +57,6 @@ yarn-error.log*
 packages/db/prisma/migrations/*
 
 tsup.config.bundled_*.mjs
+
+# Docker build cache
+.docker-cache

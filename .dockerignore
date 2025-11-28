@@ -1,0 +1,33 @@
+# dependencies
+node_modules
+**/node_modules
+.pnpm-store
+
+# build output
+.next
+.turbo
+.cache
+dist
+**/.next
+**/dist
+
+# docker
+.docker-cache
+
+# misc
+.git
+.vscode
+.cursor
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.env
+.env.local
+.env.*.local
+
+# docs
+README.md
+*.md
+LICENSE
