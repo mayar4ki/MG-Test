@@ -1,6 +1,7 @@
-import { Logger, OnModuleDestroy } from '@nestjs/common';
+import { Logger, OnModuleDestroy, UseGuards } from '@nestjs/common';
 import { OnGatewayInit, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import type { Server } from 'socket.io';
+import { WsAuthGuard } from '../auth/ws-auth.guard';
 import { TickersService } from './tickers.service';
 
 @WebSocketGateway({
@@ -8,7 +9,10 @@ import { TickersService } from './tickers.service';
     origin: '*',
   },
   namespace: '/ws/tickers',
+  pingInterval:5000,
+  pingTimeout:15000
 })
+@UseGuards(WsAuthGuard)
 export class TickersGateway implements OnGatewayInit, OnModuleDestroy {
   @WebSocketServer()
   server: Server;

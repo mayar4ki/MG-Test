@@ -12,6 +12,16 @@ export const envValidationSchema = z.object({
 
   // Redis Configuration (optional for horizontal scaling)
   REDIS_URL: z.string().url().optional(),
+
+  // Auth introspection
+  AUTH_INTROSPECT_URL: z.string().url(),
+  AUTH_INTROSPECT_CACHE_TTL_MS: z
+    .preprocess((val) => {
+      if (val === undefined || val === '') return undefined;
+      return parseInt(String(val), 10);
+    }, z.number().int().min(1000))
+    .optional()
+    .default(30000),
 });
 
 export type Env = z.infer<typeof envValidationSchema>;
