@@ -13,7 +13,6 @@ const formatClockLabel = () =>
 export class TickersService {
   private tickers: LiveTicker[] = mockTickers.map((ticker) => ({
     ...ticker,
-    history: ticker.history.map((point) => ({ ...point })),
     lastUpdated: Date.now(),
   }));
 
@@ -28,10 +27,9 @@ export class TickersService {
       const movement = directionBias * ticker.price * baseVolatility;
 
       const shockProbability = 0.1;
-      const shock =
-        Math.random() < shockProbability ? (Math.random() - 0.5) * ticker.price * 0.035 /* up to ~3.5% */ : 0;
-
+      const shock =  Math.random() < shockProbability ? (Math.random() - 0.5) * ticker.price * 0.035 /* up to ~3.5% */ : 0;
       const nextPrice = Number(Math.max(ticker.week52Range[0] * 0.85, ticker.price + movement + shock).toFixed(2));
+       
       const history = [...ticker.history.slice(-23), { time: formatClockLabel(), price: nextPrice }];
       const dayHigh = Math.max(ticker.dayRange[1], nextPrice);
       const dayLow = Math.min(ticker.dayRange[0], nextPrice);

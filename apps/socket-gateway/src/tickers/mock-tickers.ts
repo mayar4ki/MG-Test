@@ -4,6 +4,7 @@ export type TickerHistoryPoint = {
 };
 
 export type Ticker = {
+  id: string;
   symbol: string;
   name: string;
   sector: string;
@@ -33,6 +34,7 @@ const createHistory = (basePrice: number) => {
 };
 
 const makeTicker = ({
+  id,
   symbol,
   name,
   sector,
@@ -42,6 +44,7 @@ const makeTicker = ({
   dayRange,
   week52Range,
 }: Omit<Ticker, 'history'>): Ticker => ({
+  id,
   symbol,
   name,
   sector,
@@ -55,6 +58,7 @@ const makeTicker = ({
 
 export const mockTickers: Ticker[] = [
   makeTicker({
+    id: '1',
     symbol: 'AAPL',
     name: 'Apple',
     sector: 'Equities · Technology',
@@ -65,6 +69,7 @@ export const mockTickers: Ticker[] = [
     week52Range: [164.8, 199.6],
   }),
   makeTicker({
+    id: '2',
     symbol: 'MSFT',
     name: 'Microsoft',
     sector: 'Equities · Technology',
@@ -75,6 +80,7 @@ export const mockTickers: Ticker[] = [
     week52Range: [309.1, 430.3],
   }),
   makeTicker({
+    id: '3',
     symbol: 'NVDA',
     name: 'NVIDIA',
     sector: 'Equities · Semiconductors',
@@ -85,6 +91,7 @@ export const mockTickers: Ticker[] = [
     week52Range: [68.4, 112.8],
   }),
   makeTicker({
+    id: '4',
     symbol: 'TSLA',
     name: 'Tesla',
     sector: 'Equities · Automotive',
@@ -95,6 +102,7 @@ export const mockTickers: Ticker[] = [
     week52Range: [152.8, 261.7],
   }),
   makeTicker({
+    id: '5',
     symbol: 'BTC-USD',
     name: 'Bitcoin',
     sector: 'Crypto · Layer 1',
@@ -105,6 +113,7 @@ export const mockTickers: Ticker[] = [
     week52Range: [25870.2, 73820.4],
   }),
   makeTicker({
+    id: '6',
     symbol: 'ETH-USD',
     name: 'Ethereum',
     sector: 'Crypto · Layer 1',
