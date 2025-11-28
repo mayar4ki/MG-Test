@@ -6,5 +6,6 @@ import { TickersService } from './tickers.service';
 @Module({
   imports: [AuthModule],
   providers: [TickersGateway, TickersService],
+
 })
 export class TickersModule {}

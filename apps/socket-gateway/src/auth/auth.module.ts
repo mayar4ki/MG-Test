@@ -4,7 +4,7 @@ import { AuthIntrospectionService } from './auth-introspection.service';
 import { WsAuthGuard } from './ws-auth.guard';
 
 @Module({
-  providers: [AuthIntrospectionService, WsAuthGuard],
-  exports: [WsAuthGuard],
+  providers: [WsAuthGuard, AuthIntrospectionService],
+  exports: [WsAuthGuard, AuthIntrospectionService],
 })
 export class AuthModule {}

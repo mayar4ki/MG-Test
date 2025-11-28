@@ -32,8 +32,8 @@ export default function LoginPage() {
     const form = useForm<LoginFormValues>({
         resolver: yupResolver(loginSchema),
         defaultValues: {
-            email: '',
-            password: '',
+            email: 'exy@abcd.coco',
+            password: '123465879',
         },
         mode: 'onBlur',
     });
@@ -75,11 +75,11 @@ export default function LoginPage() {
                 <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => router.back()}
+                    onClick={() => router.push('/')}
                     className="mb-4 group text-muted-foreground hover:text-foreground"
                 >
                     <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-                    Go back
+                    Back Home
                 </Button>
 
                 {/* Logo / Brand */}

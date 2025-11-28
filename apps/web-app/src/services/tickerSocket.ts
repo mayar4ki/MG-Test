@@ -1,6 +1,7 @@
 import { io, type Socket } from 'socket.io-client';
 import type { LiveTicker } from '~/_types';
 import { env } from '~/env';
+import { tokenService } from './auth/tokenService';
 
 type TickerSocketHandlers = {
   onInit?: (payload: LiveTicker[]) => void;
@@ -12,8 +13,15 @@ let subscribers = 0;
 
 const ensureSocket = () => {
   if (socket) return socket;
+
+  const token = tokenService.getToken();
+  if (!token) {
+    throw new Error('Cannot connect to ticker socket without an access token. Please log in first.');
+  }
+
   socket = io(`${env.NEXT_PUBLIC_SOKCET_GETWAY_URL}/ws/tickers`, {
     transports: ['websocket'],
+    auth: { token },
   });
   return socket;
 };
@@ -23,7 +31,14 @@ const ensureSocket = () => {
  * when the last subscriber unsubscribes.
  */
 export const subscribeToTickerSocket = (handlers: TickerSocketHandlers) => {
-  const client = ensureSocket();
+  let client: Socket;
+  try {
+    client = ensureSocket();
+  } catch (error) {
+    console.warn(error instanceof Error ? error.message : 'Failed to create ticker socket');
+    return () => {};
+  }
+
   subscribers += 1;
 
   if (handlers.onInit) client.on('tickers:init', handlers.onInit);
