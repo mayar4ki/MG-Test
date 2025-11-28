@@ -57,9 +57,6 @@ export const AppHeader = () => {
             <Link href="/dashboard">
               <Button> Open Dashboard</Button>
             </Link>
-            <Link href="/auth/login">
-              <Button> Login</Button>
-            </Link>
             <ModeToggle />
           </div>
         </nav>

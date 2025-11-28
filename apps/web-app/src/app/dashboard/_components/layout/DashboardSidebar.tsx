@@ -1,6 +1,6 @@
 'use client';
 
-import { Database, HelpCircle, LayoutDashboard, Settings } from 'lucide-react';
+import { HelpCircle, LayoutDashboard, Settings } from 'lucide-react';
 import * as React from 'react';
 
 import { cn } from '@acme/ui';
@@ -29,16 +29,6 @@ const navGroups = [
         title: 'Dashboard',
         url: '/dashboard',
         icon: LayoutDashboard,
-      },
-    ],
-  },
-  {
-    label: 'Advance',
-    items: [
-      {
-        title: 'DB Sync',
-        url: '/dashboard/db-sync',
-        icon: Database,
       },
     ],
   },
