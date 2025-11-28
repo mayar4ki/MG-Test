@@ -31,6 +31,7 @@
     "react-dom": "catalog:react19",
     "recharts": "^2.12.7",
     "react-hook-form": "^7.65.0",
+    "socket.io-client": "^4.8.1",
     "viem": "catalog:",
     "wagmi": "^2.17.5",
     "yup": "^1.7.1",

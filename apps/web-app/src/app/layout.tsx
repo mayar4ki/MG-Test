@@ -32,7 +32,6 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-
           <ReactQueryProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
               <AppLayout>
@@ -41,7 +40,6 @@ export default async function RootLayout({
               </AppLayout>
             </ThemeProvider>
           </ReactQueryProvider>
-
       </body>
     </html>
   );

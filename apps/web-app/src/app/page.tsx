@@ -1,47 +1,30 @@
 'use client';
 
 import { useEffect, useId, useMemo, useState } from 'react';
-import { computeChange, formatClockLabel } from '~/_utils';
+import { computeChange } from '~/_utils';
 import { TickerDetailCard } from '~/app/_components/ticker/TickerDetailCard';
 import { TickerHeroCard } from '~/app/_components/ticker/TickerHeroCard';
 import { TickerListCard } from '~/app/_components/ticker/TickerListCard';
 
 import type { LiveTicker } from '~/_types';
-import { mockTickers } from '~/data/mock-tickers';
+import { subscribeToTickerSocket } from '~/services/tickerSocket';
 
 export default function Page() {
-  const [tickers, setTickers] = useState<LiveTicker[]>(() =>
-    mockTickers.map((ticker) => ({
-      ...ticker,
-      history: ticker.history.map((point) => ({ ...point })),
-      lastUpdated: Date.now(),
-    }))
-  );
-  const [selectedSymbol, setSelectedSymbol] = useState(() => mockTickers[0]?.symbol ?? '');
+  const [tickers, setTickers] = useState<LiveTicker[]>([]);
+  const [selectedSymbol, setSelectedSymbol] = useState('');
   const chartGradientId = useId();
 
+  
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTickers((previousTickers) =>
-        previousTickers.map((ticker) => {
-          const movement = (Math.random() - 0.45) * ticker.price * 0.0035;
-          const nextPrice = Number(Math.max(ticker.week52Range[0] * 0.9, ticker.price + movement).toFixed(2));
-          const history = [...ticker.history.slice(-23), { time: formatClockLabel(), price: nextPrice }];
-          const dayHigh = Math.max(ticker.dayRange[1], nextPrice);
-          const dayLow = Math.min(ticker.dayRange[0], nextPrice);
+    const cleanup = subscribeToTickerSocket({
+      onInit: (payload) => {
+        setTickers(payload);
+        setSelectedSymbol((current) => current || (payload[0]?.symbol ?? ''));
+      },
+      onUpdate: (payload) => setTickers(payload),
+    });
 
-          return {
-            ...ticker,
-            price: nextPrice,
-            dayRange: [dayLow, dayHigh],
-            history,
-            lastUpdated: Date.now(),
-          };
-        })
-      );
-    }, 3500);
-
-    return () => clearInterval(interval);
+    return cleanup;
   }, []);
 
   const selectedTicker = useMemo(
@@ -51,7 +34,20 @@ export default function Page() {
 
   const selectedChange = selectedTicker ? computeChange(selectedTicker.price, selectedTicker.previousClose) : undefined;
 
-  if (!selectedTicker || !selectedChange) return null;
+  if (!selectedTicker || !selectedChange) {
+    return (
+      <div className="p-4 md:p-6 flex-1">
+        <div className="grid place-items-center rounded-xl border border-dashed bg-muted/30 py-16 text-center">
+          <div className="space-y-3">
+            <p className="text-lg font-semibold">Connecting to live feed...</p>
+            <p className="text-sm text-muted-foreground">
+              Waiting for ticker data from the backend socket. Please keep this page open.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 md:p-6 flex-1">
