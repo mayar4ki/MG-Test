@@ -1,11 +1,12 @@
 import { io, type Socket } from 'socket.io-client';
-import type { LiveTicker } from '~/_types';
+import type { LiveTicker, PriceAlert } from '~/_types';
 import { env } from '~/env';
 import { tokenService } from './auth/tokenService';
 
 type TickerSocketHandlers = {
   onInit?: (payload: LiveTicker[]) => void;
   onUpdate?: (payload: LiveTicker[]) => void;
+  onAlert?: (payload: PriceAlert) => void;
 };
 
 let socket: Socket | null = null;
@@ -43,12 +44,14 @@ export const subscribeToTickerSocket = (handlers: TickerSocketHandlers) => {
 
   if (handlers.onInit) client.on('tickers:init', handlers.onInit);
   if (handlers.onUpdate) client.on('tickers:update', handlers.onUpdate);
+  if (handlers.onAlert) client.on('tickers:alert', handlers.onAlert);
 
   return () => {
     if (!socket) return;
 
     if (handlers.onInit) socket.off('tickers:init', handlers.onInit);
     if (handlers.onUpdate) socket.off('tickers:update', handlers.onUpdate);
+    if (handlers.onAlert) socket.off('tickers:alert', handlers.onAlert);
 
     subscribers = Math.max(0, subscribers - 1);
     if (subscribers === 0) {

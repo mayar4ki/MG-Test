@@ -1,10 +1,12 @@
 'use client';
 
+import { toast } from '@acme/ui/sonner';
 import { useEffect, useId, useMemo, useState } from 'react';
 import { computeChange } from '~/_utils';
 import { TickerDetailCard } from '~/app/dashboard/_components/ticker/TickerDetailCard';
 import { TickerHeroCard } from '~/app/dashboard/_components/ticker/TickerHeroCard';
 import { TickerListCard } from '~/app/dashboard/_components/ticker/TickerListCard';
+import { useAlertSound } from '~/app/dashboard/_hooks/useAlertSound';
 
 import type { LiveTicker } from '~/_types';
 import { subscribeToTickerSocket } from '~/services/tickerSocket';
@@ -13,8 +15,9 @@ export default function Page() {
   const [tickers, setTickers] = useState<LiveTicker[]>([]);
   const [selectedSymbol, setSelectedSymbol] = useState('');
   const chartGradientId = useId();
+  const playAlertSound = useAlertSound();
 
-  
+
   useEffect(() => {
     const cleanup = subscribeToTickerSocket({
       onInit: (payload) => {
@@ -22,6 +25,16 @@ export default function Page() {
         setSelectedSymbol((current) => current || (payload[0]?.symbol ?? ''));
       },
       onUpdate: (payload) => setTickers(payload),
+      onAlert: ({ symbol, changePct, previousPrice, nextPrice }) => {
+        toast.info(`${symbol} price jumped ${changePct}%`, {
+          description: `$${previousPrice.toFixed(2)} -> $${nextPrice.toFixed(2)}`,
+          action: {
+            label: 'close',
+            onClick: () => { }
+          }
+        });
+        playAlertSound();
+      },
     });
 
     return cleanup;

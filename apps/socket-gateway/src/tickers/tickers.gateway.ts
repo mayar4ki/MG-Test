@@ -27,8 +27,12 @@ export class TickersGateway implements OnGatewayInit, OnModuleDestroy {
     this.server.emit('tickers:init', this.tickersService.getSnapshot());
 
     this.interval = setInterval(() => {
-      const payload = this.tickersService.updateTickers();
-      this.server.emit('tickers:update', payload);
+      const { tickers, alerts } = this.tickersService.updateTickers();
+      this.server.emit('tickers:update', tickers);
+
+      alerts.forEach((alert) => {
+        this.server.emit('tickers:alert', alert);
+      });
     }, 3500);
   }
 

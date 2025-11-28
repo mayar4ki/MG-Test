@@ -21,3 +21,11 @@ export type TickerChange = {
   delta: number;
   deltaPct: number;
 };
+
+export type PriceAlert = {
+  symbol: string;
+  previousPrice: number;
+  nextPrice: number;
+  changePct: number;
+  timestamp: number;
+};
