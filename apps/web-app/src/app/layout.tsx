@@ -3,7 +3,7 @@ import { Toaster } from '@acme/ui/sonner';
 import { siteName, tagline } from '@acme/white-label/web-app';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import AppLayout from '~/_components/layout/AppLayout';
+
 import { ReactQueryProvider } from '~/_components/providers/ReactQueryProvider';
 import './globals.css';
 
@@ -28,18 +28,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <ReactQueryProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-              <AppLayout>
-                <Toaster />
-                {children}
-              </AppLayout>
-            </ThemeProvider>
-          </ReactQueryProvider>
+        <ReactQueryProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <Toaster />
+            {children}
+          </ThemeProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

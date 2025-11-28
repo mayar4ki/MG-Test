@@ -1,15 +1,15 @@
 'use client';
 
 import { SidebarInset, SidebarProvider } from '@acme/ui/sidebar';
-import { AppFooter } from './AppFooter';
-import { AppHeader } from './AppHeader';
-import { AppSidebar } from './AppSidebar';
+import { AppFooter } from './DashboardFooter';
+import { AppHeader } from './DashboardHeader';
+import { AppSidebar } from './DashboardSidebar';
 
-export default function AppLayout({
+export const DashboardLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   return (
 <SidebarProvider>
         <AppSidebar />

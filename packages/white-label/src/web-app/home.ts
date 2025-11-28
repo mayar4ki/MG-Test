@@ -1,20 +1,20 @@
 import {
-  BookCheck,
-  ChartPie,
-  FolderSync,
-  Goal,
-  Users,
+  BarChart3,
+  Clock,
+  Globe,
+  LineChart,
+  Shield,
   Zap,
 } from "lucide-react";
 
-export const badge = "✨ Tokenize your assets";
-export const heading = "Real-world Assets Tokenization";
+export const badge = "📈 Trade with Confidence";
+export const heading = "Your Gateway to Global Markets";
 export const description =
-  "Enhance liquidity, Transform how you manage assets today, focusing on transparency and decentralization.";
+  "Execute trades with lightning-fast speed, competitive spreads, and institutional-grade tools. Access stocks, forex, commodities, and crypto—all in one platform.";
 export const buttons = {
   primary: {
-    text: "Discover Smart Contracts",
-    url: "/",
+    text: "Start Trading Now",
+    url: "/dashboard",
   },
 };
 
@@ -27,73 +27,73 @@ export type FeaturesSection = {
   }[];
 };
 export const featuresSection: FeaturesSection = {
-  title: "Features that Empower Your Strategy",
+  title: "Built for Serious Traders",
   features: [
     {
-      icon: Goal,
-      title: "Identify Opportunities",
-      description:
-        "Easily uncover untapped areas to explore and expand your reach effortlessly and effectively.",
-    },
-    {
-      icon: BookCheck,
-      title: "Build Authority",
-      description:
-        "Create valuable content that resonates, inspires trust, and positions you as an expert.",
-    },
-    {
-      icon: ChartPie,
-      title: "Instant Insights",
-      description:
-        "Gain immediate, actionable insights with a quick glance, enabling fast decision-making.",
-    },
-    {
-      icon: Users,
-      title: "Engage with Your Audience",
-      description:
-        "Boost audience engagement with interactive features like polls, quizzes, and forms.",
-    },
-    {
-      icon: FolderSync,
-      title: "Automate Your Workflow",
-      description:
-        "Streamline your processes by automating repetitive tasks, saving time and reducing effort.",
-    },
-    {
       icon: Zap,
-      title: "Accelerate Growth",
+      title: "Ultra-Fast Execution",
       description:
-        "Supercharge your growth by implementing strategies that drive results quickly and efficiently.",
+        "Execute orders in milliseconds with our cutting-edge infrastructure and direct market access.",
+    },
+    {
+      icon: LineChart,
+      title: "Advanced Charting",
+      description:
+        "Analyze markets with 100+ technical indicators, drawing tools, and real-time price alerts.",
+    },
+    {
+      icon: Globe,
+      title: "Global Market Access",
+      description:
+        "Trade 10,000+ instruments across stocks, forex, indices, commodities, and cryptocurrencies.",
+    },
+    {
+      icon: Shield,
+      title: "Secure & Regulated",
+      description:
+        "Your funds are protected with segregated accounts and top-tier regulatory oversight.",
+    },
+    {
+      icon: BarChart3,
+      title: "Real-Time Analytics",
+      description:
+        "Make informed decisions with live market data, news feeds, and AI-powered insights.",
+    },
+    {
+      icon: Clock,
+      title: "24/7 Trading",
+      description:
+        "Never miss an opportunity. Trade around the clock on crypto and global forex markets.",
     },
   ],
 };
 
 export const compliantWithSection = {
-  title: "Our smart contracts are compliant with governments regulations",
-  subtitle: "compliant with the following laws and regulations",
+  title: "Trusted by Traders Worldwide",
+  subtitle: "Regulated and compliant with leading financial authorities",
   logos: [
     {
-      name: "Vercel",
+      name: "SEC",
       logo: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/vercel-wordmark.svg",
       className: "h-7 w-auto",
     },
     {
-      name: "Astro",
+      name: "FCA",
       logo: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/tailwind-wordmark.svg",
       className: "h-5 w-auto",
     },
     {
-      name: "Supabase",
+      name: "FINRA",
       logo: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/supabase-wordmark.svg",
       className: "h-6 w-auto",
     },
     {
-      name: "Figma",
+      name: "CySEC",
       logo: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/figma-wordmark.svg",
       className: "h-5 w-auto",
     },
     {
-      name: "Astro",
+      name: "ASIC",
       logo: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/astro-wordmark.svg",
       className: "h-6 w-auto",
     },
@@ -101,32 +101,32 @@ export const compliantWithSection = {
 };
 
 export const statsSection = {
-  heading: "Platform performance insights",
-  description: "Ensuring stability and scalability for all users",
+  heading: "Trading Performance That Speaks",
+  description: "Industry-leading metrics trusted by professional traders",
   link: {
-    text: "Read the full impact report",
+    text: "View our full transparency report",
     url: "https://www.shadcnblocks.com",
   },
   stats: [
     {
       id: "stat-1",
-      value: "250%+",
-      label: "average growth in user engagement",
+      value: "0.1ms",
+      label: "average order execution speed",
     },
     {
       id: "stat-2",
-      value: "$2.5m",
-      label: "annual savings per enterprise partner",
+      value: "$4.2B+",
+      label: "daily trading volume processed",
     },
     {
       id: "stat-3",
-      value: "200+",
-      label: "integrations with top industry platforms",
+      value: "10,000+",
+      label: "tradable instruments worldwide",
     },
     {
       id: "stat-4",
-      value: "99.9%",
-      label: "customer satisfaction over the last year",
+      value: "2M+",
+      label: "active traders across 150 countries",
     },
   ],
 };

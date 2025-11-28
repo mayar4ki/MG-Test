@@ -2,9 +2,9 @@
 
 import { useEffect, useId, useMemo, useState } from 'react';
 import { computeChange } from '~/_utils';
-import { TickerDetailCard } from '~/app/_components/ticker/TickerDetailCard';
-import { TickerHeroCard } from '~/app/_components/ticker/TickerHeroCard';
-import { TickerListCard } from '~/app/_components/ticker/TickerListCard';
+import { TickerDetailCard } from '~/app/dashboard/_components/ticker/TickerDetailCard';
+import { TickerHeroCard } from '~/app/dashboard/_components/ticker/TickerHeroCard';
+import { TickerListCard } from '~/app/dashboard/_components/ticker/TickerListCard';
 
 import type { LiveTicker } from '~/_types';
 import { subscribeToTickerSocket } from '~/services/tickerSocket';

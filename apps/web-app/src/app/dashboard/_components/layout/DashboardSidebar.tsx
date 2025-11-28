@@ -27,19 +27,17 @@ const navGroups = [
     items: [
       {
         title: 'Dashboard',
-        url: '/',
+        url: '/dashboard',
         icon: LayoutDashboard,
       },
     ],
   },
-
-  
   {
     label: 'Advance',
     items: [
       {
         title: 'DB Sync',
-        url: '/db-sync',
+        url: '/dashboard/db-sync',
         icon: Database,
       },
     ],
@@ -49,12 +47,12 @@ const navGroups = [
     items: [
       {
         title: 'Settings',
-        url: '/settings',
+        url: '/dashboard/settings',
         icon: Settings,
       },
       {
         title: 'Support',
-        url: '/support',
+        url: '/dashboard/support',
         icon: HelpCircle,
       },
     ],
