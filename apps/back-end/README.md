@@ -123,6 +123,7 @@ $ yarn format
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- For horizontal scaling, set `REDIS_URL` (e.g., `redis://user:pass@host:6379`) so the Socket.IO Redis adapter is enabled across gateway replicas. If unset, the gateway runs single-node only.
 
 If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
 

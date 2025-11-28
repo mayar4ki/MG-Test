@@ -12,7 +12,7 @@ let subscribers = 0;
 
 const ensureSocket = () => {
   if (socket) return socket;
-  socket = io(`${env.NEXT_PUBLIC_BACKEND_URL}/ws/tickers`, {
+  socket = io(`${env.NEXT_PUBLIC_SOKCET_GETWAY_URL}/ws/tickers`, {
     transports: ['websocket'],
   });
   return socket;

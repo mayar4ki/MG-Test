@@ -2,13 +2,16 @@ import { z } from 'zod';
 
 export const envValidationSchema = z.object({
   // Server Configuration
-  PORT: z.preprocess((val) => {
-    if (val === undefined || val === '') {
-      throw new Error('PORT is required');
-    }
-    return parseInt(String(val), 10);
-  }, z.number().int().min(1).max(65535)),
-  JWT_SECRET: z.string().min(10),
+  GATEWAY_PORT: z
+    .preprocess((val) => {
+      if (val === undefined || val === '') return undefined;
+      return parseInt(String(val), 10);
+    }, z.number().int().min(1).max(65535))
+    .optional()
+    .default(3001),
+
+  // Redis Configuration (optional for horizontal scaling)
+  REDIS_URL: z.string().url().optional(),
 });
 
 export type Env = z.infer<typeof envValidationSchema>;
@@ -24,8 +27,8 @@ export type Env = z.infer<typeof envValidationSchema>;
  *
  * constructor(private readonly configService: ConfigService<Env>) {
  *   // Use { infer: true } for automatic type inference
- *   const port = this.configService.get('PORT', { infer: true }); // TypeScript knows this is a number
- *   const dbUrl = this.configService.get('DATABASE_URL', { infer: true }); // TypeScript knows this is a string
+ *   const port = this.configService.get('GATEWAY_PORT', { infer: true }); // TypeScript knows this is a number
+ *   const redisUrl = this.configService.get('REDIS_URL', { infer: true }); // TypeScript knows this is string | undefined
  * }
  * ```
  */
