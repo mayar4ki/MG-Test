@@ -1,0 +1,99 @@
+# API (back-end) Deployment, Service, and HPA
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+  namespace: mg-test
+  labels:
+    app: api
+spec:
+  type: NodePort
+  ports:
+    - port: 3002
+      targetPort: 3002
+      nodePort: 30002  # Access via localhost:30002
+      name: http
+  selector:
+    app: api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: mg-test
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: mg-test-api:latest
+          imagePullPolicy: Never  # Use local image (for Minikube/Kind)
+          ports:
+            - containerPort: 3002
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mg-test-config
+                  key: PORT
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mg-test-secrets
+                  key: JWT_SECRET
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-hpa
+  namespace: mg-test
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+

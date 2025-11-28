@@ -1,0 +1,111 @@
+# Socket Gateway Deployment, Service, and HPA
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: socket-service
+  namespace: mg-test
+  labels:
+    app: socket
+spec:
+  type: NodePort
+  ports:
+    - port: 3003
+      targetPort: 3003
+      nodePort: 30003  # Access via localhost:30003
+      name: http
+  selector:
+    app: socket
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: socket
+  namespace: mg-test
+  labels:
+    app: socket
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: socket
+  template:
+    metadata:
+      labels:
+        app: socket
+    spec:
+      containers:
+        - name: socket
+          image: mg-test-socket:latest
+          imagePullPolicy: Never  # Use local image (for Minikube/Kind)
+          ports:
+            - containerPort: 3003
+          env:
+            - name: GATEWAY_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mg-test-config
+                  key: GATEWAY_PORT
+            - name: AUTH_INTROSPECT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mg-test-config
+                  key: AUTH_INTROSPECT_URL
+            - name: AUTH_INTROSPECT_CACHE_TTL_MS
+              valueFrom:
+                configMapKeyRef:
+                  name: mg-test-config
+                  key: AUTH_INTROSPECT_CACHE_TTL_MS
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mg-test-secrets
+                  key: REDIS_PASSWORD
+            - name: REDIS_URL
+              value: "redis://:$(REDIS_PASSWORD)@redis-service:6379"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: socket-hpa
+  namespace: mg-test
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: socket
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+

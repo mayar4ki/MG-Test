@@ -1,0 +1,8 @@
+# Namespace for all MG-Test resources
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mg-test
+  labels:
+    app.kubernetes.io/name: mg-test
+

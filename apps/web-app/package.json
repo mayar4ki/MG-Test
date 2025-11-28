@@ -21,7 +21,6 @@
     "@t3-oss/env-nextjs": "^0.13.8",
     "axios": "^1.13.1",
     "clsx": "^2.1.1",
-    "ethers": "^5.7.0",
     "lucide-react": "^0.548.0",
     "motion": "^12.23.24",
     "next": "catalog:react19",
@@ -30,8 +29,6 @@
     "recharts": "^2.12.7",
     "react-hook-form": "^7.65.0",
     "socket.io-client": "^4.8.1",
-    "viem": "catalog:",
-    "wagmi": "^2.17.5",
     "yup": "^1.7.1",
     "zod": "catalog:"
   },
