@@ -148,30 +148,11 @@ For production deployments with auto-scaling and high availability.
 ### Quick Start
 
 ```bash
-# Deploy to Minikube
-./scripts/k8s-deploy.sh minikube
-
-# Deploy to Kind
-./scripts/k8s-deploy.sh kind
+# set the context
+kubectl config use-context docker-desktop
 
 # Deploy to Docker Desktop
-./scripts/k8s-deploy.sh docker-desktop
-```
-
-### Manual Deployment
-
-```bash
-# 1. Build images (example for Minikube)
-eval $(minikube docker-env)
-docker build -f apps/back-end/Dockerfile -t mg-test-api:latest .
-docker build -f apps/socket-gateway/Dockerfile -t mg-test-socket:latest .
-docker build -f apps/web-app/Dockerfile -t mg-test-web:latest .
-
-# 2. Deploy
-kubectl apply -k k8s/
-
-# 3. Check status
-kubectl -n mg-test get pods
+./scripts/k8s-deploy.sh
 ```
 
 ### Scaling

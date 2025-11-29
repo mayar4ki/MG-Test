@@ -1,40 +1,20 @@
 #!/bin/bash
-# Kubernetes deployment script for MG-Test
-# Usage: ./scripts/k8s-deploy.sh [minikube|kind|docker-desktop]
+# Kubernetes deployment script for MG-Test (Docker Desktop)
+# Usage: ./scripts/k8s-deploy.sh
 
 set -e
 
-CLUSTER_TYPE="${1:-minikube}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 echo "🚀 MG-Test Kubernetes Deployment"
 echo "================================="
-echo "Cluster type: $CLUSTER_TYPE"
+echo "Using Docker Desktop's Kubernetes..."
 echo ""
 
 # Step 1: Build Docker images
 echo "📦 Building Docker images..."
 
-case $CLUSTER_TYPE in
-  minikube)
-    echo "Using Minikube's Docker daemon..."
-    eval $(minikube docker-env)
-    ;;
-  kind)
-    echo "Will load images into Kind after building..."
-    ;;
-  docker-desktop)
-    echo "Using Docker Desktop's daemon..."
-    ;;
-  *)
-    echo "Unknown cluster type: $CLUSTER_TYPE"
-    echo "Usage: $0 [minikube|kind|docker-desktop]"
-    exit 1
-    ;;
-esac
-
-# Build images
 cd "$PROJECT_ROOT"
 docker build -f apps/back-end/Dockerfile -t mg-test-api:latest .
 docker build -f apps/socket-gateway/Dockerfile -t mg-test-socket:latest .
@@ -44,15 +24,6 @@ docker build -f apps/web-app/Dockerfile \
   -t mg-test-web:latest .
 
 echo "✅ Images built successfully"
-
-# For Kind, load images into the cluster
-if [ "$CLUSTER_TYPE" = "kind" ]; then
-  echo "📤 Loading images into Kind cluster..."
-  kind load docker-image mg-test-api:latest
-  kind load docker-image mg-test-socket:latest
-  kind load docker-image mg-test-web:latest
-  echo "✅ Images loaded into Kind"
-fi
 
 # Step 2: Apply Kubernetes manifests
 echo ""
@@ -78,20 +49,9 @@ echo ""
 # Step 5: Show access URLs
 echo "🌐 Access URLs:"
 echo "==============="
-
-case $CLUSTER_TYPE in
-  minikube)
-    MINIKUBE_IP=$(minikube ip)
-    echo "Web App:        http://$MINIKUBE_IP:30000"
-    echo "API:            http://$MINIKUBE_IP:30002"
-    echo "Socket Gateway: http://$MINIKUBE_IP:30003"
-    ;;
-  *)
-    echo "Web App:        http://localhost:30000"
-    echo "API:            http://localhost:30002"
-    echo "Socket Gateway: http://localhost:30003"
-    ;;
-esac
+echo "Web App:        http://localhost:30000"
+echo "API:            http://localhost:30002"
+echo "Socket Gateway: http://localhost:30003"
 
 echo ""
 echo "✅ Deployment complete!"
@@ -101,5 +61,4 @@ echo "  kubectl -n mg-test get pods          # List pods"
 echo "  kubectl -n mg-test logs -f <pod>     # View logs"
 echo "  kubectl -n mg-test get hpa           # View auto-scaling status"
 echo "  kubectl delete -k k8s/               # Delete all resources"
-echo "  kubectl apply -k k8s/              # appply all resources"
-
+echo "  kubectl apply -k k8s/                # Apply all resources"
