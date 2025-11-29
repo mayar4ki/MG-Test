@@ -101,4 +101,5 @@ echo "  kubectl -n mg-test get pods          # List pods"
 echo "  kubectl -n mg-test logs -f <pod>     # View logs"
 echo "  kubectl -n mg-test get hpa           # View auto-scaling status"
 echo "  kubectl delete -k k8s/               # Delete all resources"
+echo "  kubectl apply -k k8s/              # appply all resources"
 

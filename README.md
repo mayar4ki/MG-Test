@@ -174,14 +174,6 @@ kubectl apply -k k8s/
 kubectl -n mg-test get pods
 ```
 
-### Access URLs (NodePort)
-
-| Service | URL |
-|---------|-----|
-| Web App | http://localhost:30000 |
-| API | http://localhost:30002 |
-| Socket | http://localhost:30003 |
-
 ### Scaling
 
 Auto-scaling is configured for all services:

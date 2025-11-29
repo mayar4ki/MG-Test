@@ -14,7 +14,8 @@ resources:
   - socket.yaml
   - web.yaml
 
-commonLabels:
-  app.kubernetes.io/part-of: mg-test
-  app.kubernetes.io/managed-by: kustomize
-
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/part-of: mg-test
+      app.kubernetes.io/managed-by: kustomize
