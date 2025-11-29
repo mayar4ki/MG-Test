@@ -1,6 +1,6 @@
 # MG-Test
 
-A full-stack Web3 application built with a modern monorepo architecture.
+A full-stack application built with a modern monorepo architecture.
 
 ---
 
@@ -136,14 +136,6 @@ pnpm build
 ## ☸️ Deployment: Kubernetes
 
 For production deployments with auto-scaling and high availability.
-
-### Features
-
-- ✅ Horizontal Pod Autoscaler (HPA)
-- ✅ Persistent storage for Redis
-- ✅ Health checks (liveness & readiness)
-- ✅ Resource limits
-- ✅ Secrets management
 
 ### Quick Start
 
