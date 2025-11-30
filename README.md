@@ -1,8 +1,5 @@
-# MG-Test
 
-A full-stack application built with a modern monorepo architecture.
-
----
+## Full-stack application built with a modern monorepo architecture.
 
 ## 📸 Screenshots
 
