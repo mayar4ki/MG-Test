@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { env } from '~/env';
+import { tokenService } from './auth/tokenService';
 
 /**
  * Axios instance configured with the back-end API base URL
@@ -12,10 +13,13 @@ export const apiClient = axios.create({
   timeout: 30000, // 30 seconds timeout
 });
 
-// Request interceptor (optional - for adding auth tokens, etc.)
+// Request interceptor - adds auth token to requests
 apiClient.interceptors.request.use(
   (config) => {
-    // Add any request modifications here (e.g., auth tokens)
+    const token = tokenService.getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {

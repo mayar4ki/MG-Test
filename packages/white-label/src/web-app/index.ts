@@ -1,4 +1,4 @@
-export const siteName = "MG 宝宝";
+export const siteName = "金桥 88";
 
 export const tagline = "Trust, Transparency, and Technology";
 
