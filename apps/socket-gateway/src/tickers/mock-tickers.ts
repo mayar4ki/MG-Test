@@ -1,5 +1,5 @@
 export type TickerHistoryPoint = {
-  time: string;
+  time: number;
   price: number;
 };
 
@@ -16,20 +16,14 @@ export type Ticker = {
   history: TickerHistoryPoint[];
 };
 
-const formatTime = (date: Date) =>
-  date.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-
 const createHistory = (basePrice: number) => {
   const now = Date.now();
   return Array.from({ length: 24 }).map((_, index) => {
-    const timestamp = new Date(now - (23 - index) * 5 * 60 * 1000);
+    const timestamp = now - (23 - index) * 5 * 60 * 1000;
     const wave = Math.sin(index / 2.3) * basePrice * 0.06;
     const noise = (Math.random() - 0.5) * basePrice * 0.05;
     const price = Number((basePrice + wave + noise).toFixed(2));
-    return { time: formatTime(timestamp), price };
+    return { time: timestamp, price };
   });
 };
 

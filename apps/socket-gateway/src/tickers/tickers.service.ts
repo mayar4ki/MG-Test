@@ -19,12 +19,6 @@ const PRICE_ALERT_THRESHOLD = 0.02; // 2% price jump triggers alert
 const VOLATILITY = 0.02; // 2% max price swing per tick
 const SHOCK_CHANCE = 0.05; // 10% chance of 3.5% spike
 
-const formatClockLabel = () =>
-  new Date().toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-
 @Injectable()
 export class TickersService {
   private tickers: LiveTicker[] = mockTickers.map((ticker) => ({
@@ -80,7 +74,7 @@ export class TickersService {
       ...ticker,
       price: nextPrice,
       dayRange: [Math.min(ticker.dayRange[0], nextPrice), Math.max(ticker.dayRange[1], nextPrice)],
-      history: [...ticker.history.slice(-23), { time: formatClockLabel(), price: nextPrice }],
+      history: [...ticker.history.slice(-23), { time: Date.now(), price: nextPrice }],
       volume: Math.max(0, Math.round(ticker.volume * (0.98 + Math.random() * 0.04))),
       lastUpdated: Date.now(),
     };

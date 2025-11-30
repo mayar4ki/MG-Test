@@ -7,9 +7,12 @@ import { formatClockLabel, formatNumber, formatPrice } from '~/_utils';
 
 const PriceTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
   if (!active || !payload?.length) return null;
+  const labelValue = typeof label === 'number' ? label : Number(label);
+  const labelText = Number.isFinite(labelValue) ? formatClockLabel(labelValue) : String(label ?? '');
+
   return (
     <div className="rounded-lg border bg-background px-3 py-2 shadow-md">
-      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="text-xs text-muted-foreground">{labelText}</p>
       <p className="font-semibold">{formatPrice(Number(payload[0]?.value))}</p>
     </div>
   );
@@ -63,7 +66,13 @@ export const TickerDetailCard = ({ selectedTicker, selectedChange, chartGradient
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.2} />
-              <XAxis dataKey="time" tickLine={false} axisLine={false} tickMargin={8} />
+              <XAxis
+                dataKey="time"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) => formatClockLabel(Number(value))}
+              />
               <YAxis tickLine={false} axisLine={false} tickFormatter={(value) => formatPrice(Number(value))} width={90} />
               <Tooltip content={<PriceTooltip />} />
               <Area

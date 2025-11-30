@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import { formatClockLabel } from '~/_utils';
 import type { LiveTicker, TickerPriceUpdate } from '~/_types';
 
 export const useTickers = () => {
@@ -22,7 +21,7 @@ export const useTickers = () => {
         const nextPrice = nextPriceById.get(ticker.id);
         if (nextPrice === undefined) return ticker;
 
-        const history = [...ticker.history.slice(-23), { time: formatClockLabel(timestamp), price: nextPrice }];
+        const history = [...ticker.history.slice(-23), { time: timestamp, price: nextPrice }];
         const dayLow = Math.min(ticker.dayRange[0], nextPrice);
         const dayHigh = Math.max(ticker.dayRange[1], nextPrice);
         const volume = Math.max(Math.round(ticker.volume * (1 + (Math.random() - 0.5) * 0.04)), 0);

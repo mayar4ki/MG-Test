@@ -1,5 +1,5 @@
 export type TickerHistoryPoint = {
-  time: string;
+  time: number;
   price: number;
 };
 
