@@ -65,9 +65,9 @@ This project uses **pnpm workspaces** and **Turborepo** for monorepo management.
 ```
 mg-test/
 ├── apps/                    # Deployable applications
-│   ├── web-app/            # Next.js 16 frontend
-│   ├── back-end/           # NestJS REST API
-│   └── socket-gateway/     # NestJS WebSocket server
+│   ├── web-app/            # Next.js 16 frontend (Socket.io)
+│   ├── back-end/           # NestJS REST API (JWT auth, request validation)
+│   └── socket-gateway/     # NestJS WebSocket server (Socket.io, Redis adapter for scaling)
 │
 ├── packages/                # Shared libraries
 │   ├── ui/                 # React component library (shadcn/ui)
@@ -80,22 +80,7 @@ mg-test/
 ├── scripts/                 # Deployment scripts
 └── turbo.json              # Turborepo config
 ```
-
 ---
-
-## 📦 Apps & Packages
-
-| Name | Type | Description |
-|------|------|-------------|
-| `apps/web-app` | Frontend | Next.js 16, React 19, TailwindCSS, shadcn/ui, Socket.io |
-| `apps/back-end` | REST API | NestJS 11, JWT auth, request validation |
-| `apps/socket-gateway` | WebSocket | NestJS 11, Socket.io, Redis adapter for scaling |
-| `packages/ui` | Library | Shared React components (shadcn/ui based) |
-| `packages/white-label` | Library | Branding |
-| `tooling/tsconfig` | Config | Shared TypeScript configurations |
-
----
-
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -159,17 +144,6 @@ kubectl delete -k k8s/               # Delete all resources"
 kubectl apply -k k8s/                # Apply all resources"
 ```
 
-### Scaling
-
-Auto-scaling is configured for all services:
-
-| Service | Min | Max | Scale Trigger |
-|---------|-----|-----|---------------|
-| api | 1 | 5 | CPU > 70% or Memory > 80% |
-| socket | 1 | 5 | CPU > 70% or Memory > 80% |
-| web | 1 | 3 | CPU > 70% or Memory > 80% |
-
-
 ### Secrets Configuration
 
 Before deploying, update the secrets in `k8s/secrets.yaml`:
@@ -192,6 +166,15 @@ After updating secrets, apply and restart:
 kubectl apply -k k8s/
 kubectl -n mg-test rollout restart deployment/api deployment/socket deployment/web
 ```
+### Scaling
+
+Auto-scaling is configured for all services:
+
+| Service | Min | Max | Scale Trigger |
+|---------|-----|-----|---------------|
+| api | 1 | 5 | CPU > 70% or Memory > 80% |
+| socket | 1 | 5 | CPU > 70% or Memory > 80% |
+| web | 1 | 3 | CPU > 70% or Memory > 80% |
 
 ## ⚙️ Environment Variables
 
@@ -209,6 +192,16 @@ kubectl -n mg-test rollout restart deployment/api deployment/socket deployment/w
 | `WEB_PORT` | Web app port | `3000` |
 | `NEXT_PUBLIC_BACKEND_URL` | API URL for browser | `http://localhost:3002` |
 | `NEXT_PUBLIC_SOKCET_GETWAY_URL` | Socket URL for browser | `http://localhost:3003` |
+
+
+##  ⚡Enable Turborepo Remote Cache (Optional)
+If you want remote Turbo caching (useful in CI/servers), set these before building images:
+
+| Variable | Description |
+|----------|-------------|
+| `TURBO_TOKEN` | Auth token for the Turbo remote cache |
+| `TURBO_TEAM` | Team/namespace for the cache |
+| `TURBO_API` | Turbo API endpoint (only if using a custom endpoint) |
 
 ---
 

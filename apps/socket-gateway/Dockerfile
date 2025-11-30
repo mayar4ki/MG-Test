@@ -19,7 +19,8 @@ FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/socket-gateway/node_modules ./apps/socket-gateway/node_modules
 COPY . .
-RUN pnpm --filter socket-gateway... build
+RUN --mount=type=cache,target=/app/.turbo \
+  pnpm --filter socket-gateway... build
 
 FROM base AS runner
 WORKDIR /app

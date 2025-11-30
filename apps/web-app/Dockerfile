@@ -35,7 +35,8 @@ COPY . .
 RUN printf "NEXT_PUBLIC_BACKEND_URL=%s\nNEXT_PUBLIC_SOKCET_GETWAY_URL=%s\n" \
     "$NEXT_PUBLIC_BACKEND_URL" "$NEXT_PUBLIC_SOKCET_GETWAY_URL" > /app/.env
 
-RUN pnpm --filter web-app... build
+RUN --mount=type=cache,target=/app/.turbo \
+    pnpm --filter web-app... build
 
 FROM base AS runner
 WORKDIR /app

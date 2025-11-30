@@ -19,7 +19,8 @@ FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/back-end/node_modules ./apps/back-end/node_modules
 COPY . .
-RUN pnpm --filter back-end... build
+RUN --mount=type=cache,target=/app/.turbo \
+  pnpm --filter back-end... build
 
 FROM base AS runner
 WORKDIR /app
